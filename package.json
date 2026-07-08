@@ -1,3 +1,8 @@
+# ============ PACKAGE.JSON NI TO'G'IRLASH ============
+
+Remove-Item package.json -Force -ErrorAction SilentlyContinue
+
+@"
 {
   "name": "vakolatnoma",
   "version": "1.0.0",
@@ -7,7 +12,7 @@
     "start": "node server.js"
   },
   "engines": {
-    "node": "24.x"
+    "node": "18.x"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -15,3 +20,6 @@
     "cors": "^2.8.5"
   }
 }
+"@ | Out-File -FilePath "package.json" -Encoding UTF8
+
+Write-Host "✅ package.json to'g'irlandi!" -ForegroundColor Green
