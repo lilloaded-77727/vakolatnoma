@@ -1,90 +1,110 @@
 ﻿const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const { MongoClient } = require('mongodb');
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// ===== MONGODB ULASH =====
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const client = new MongoClient(MONGODB_URI);
-let db, usersCollection;
+// Database fayli
+const DB_FILE = path.join(__dirname, 'users.json');
 
-async function connectDB() {
+// Database funksiyalari
+function readDB() {
     try {
-        await client.connect();
-        db = client.db('vakolatnoma');
-        usersCollection = db.collection('users');
-        console.log('✅ MongoDB ga ulandi!');
+        if (fs.existsSync(DB_FILE)) {
+            const data = fs.readFileSync(DB_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+        return { 
+            users: [], 
+            admin: { 
+                username: 'admin', 
+                password: bcrypt.hashSync('2113', bcrypt.genSaltSync(10))
+            } 
+        };
     } catch (error) {
-        console.error('❌ MongoDB xatosi:', error);
+        console.log('ReadDB error:', error);
+        return { 
+            users: [], 
+            admin: { 
+                username: 'admin', 
+                password: bcrypt.hashSync('2113', bcrypt.genSaltSync(10))
+            } 
+        };
     }
 }
-connectDB();
 
-// ===== FUNKSIYALAR =====
-async function initAdmin() {
-    const admin = await usersCollection.findOne({ email: 'admin' });
-    if (!admin) {
+function writeDB(data) {
+    try {
+        fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.log('WriteDB error:', error);
+    }
+}
+
+function initAdmin() {
+    const db = readDB();
+    if (!db.admin || !db.admin.password) {
         const salt = bcrypt.genSaltSync(10);
-        await usersCollection.insertOne({
-            email: 'admin',
-            password: bcrypt.hashSync('2113', salt),
-            fullname: 'Admin',
-            isAdmin: true,
-            created_at: new Date().toISOString()
-        });
+        db.admin = {
+            username: 'admin',
+            password: bcrypt.hashSync('2113', salt)
+        };
+        writeDB(db);
         console.log('✅ Admin yaratildi: admin / 2113');
     }
 }
-initAdmin();
 
-async function registerUser(fullname, email, password, phone) {
-    const existing = await usersCollection.findOne({ email: email });
+function registerUser(fullname, email, password, phone) {
+    const db = readDB();
+    const existing = db.users.find(u => u.email === email);
     if (existing) {
         return { success: false, message: 'Bu email allaqachon ro\'yxatdan o\'tgan!' };
     }
-    
-    const salt = bcrypt.genSaltSync(10);
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    
-    await usersCollection.insertOne({
+    db.users.push({
+        id: Date.now(),
         fullname: fullname,
         email: email,
-        password: hashedPassword,
+        password: password,
         phone: phone || '',
         created_at: new Date().toISOString()
     });
+    writeDB(db);
     return { success: true, message: 'Ro\'yxatdan o\'tish muvaffaqiyatli!' };
 }
 
-async function getAllUsers() {
-    return await usersCollection.find({ isAdmin: { $ne: true } }).toArray();
+function getAllUsers() {
+    const db = readDB();
+    return db.users;
 }
 
-async function checkAdmin(username, password) {
-    const admin = await usersCollection.findOne({ email: username, isAdmin: true });
-    if (admin) {
-        return bcrypt.compareSync(password, admin.password);
+function checkAdmin(username, password) {
+    const db = readDB();
+    if (username === db.admin.username) {
+        return bcrypt.compareSync(password, db.admin.password);
     }
     return false;
 }
+
+// Adminni ishga tushirish
+initAdmin();
 
 // ===== ROUTES =====
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', (req, res) => {
     const { fullname, email, password, phone } = req.body;
     if (!fullname || !email || !password) {
         return res.json({ success: false, message: 'Iltimos, barcha maydonlarni to\'ldiring!' });
     }
-    const result = await registerUser(fullname, email, password, phone);
+    const result = registerUser(fullname, email, password, phone);
     res.json(result);
 });
 
@@ -92,17 +112,17 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin-login.html'));
 });
 
-app.post('/api/admin-login', async (req, res) => {
+app.post('/api/admin-login', (req, res) => {
     const { username, password } = req.body;
-    if (await checkAdmin(username, password)) {
+    if (checkAdmin(username, password)) {
         res.json({ success: true, message: 'Admin tizimga kirdi!' });
     } else {
         res.json({ success: false, message: 'Noto\'g\'ri login yoki parol!' });
     }
 });
 
-app.get('/api/admin-dashboard', async (req, res) => {
-    const users = await getAllUsers();
+app.get('/api/admin-dashboard', (req, res) => {
+    const users = getAllUsers();
     res.json({ success: true, users: users });
 });
 
@@ -114,6 +134,19 @@ app.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
-app.listen(PORT, () => {
-    console.log('🚀 Server ishga tushdi: http://localhost:' + PORT);
+// ===== SERVERNI ISHGA TUSHIRISH =====
+app.listen(PORT, '0.0.0.0', () => {
+    console.log('✅ Server ishga tushdi!');
+    console.log('🚀 PORT: ' + PORT);
+    console.log('🇺🇿 O\'zbekiston vakolatnoma tizimi');
+    console.log('👤 Admin: admin / 2113');
+});
+
+// Xatoliklarni ushlash
+process.on('uncaughtException', (err) => {
+    console.log('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (err) => {
+    console.log('Unhandled Rejection:', err);
 });
