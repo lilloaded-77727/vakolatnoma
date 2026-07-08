@@ -1,14 +1,13 @@
-﻿{
+{
   "name": "vakolatnoma",
   "version": "1.0.0",
-  "description": "O'zbekiston vakolatnoma tizimi 🇺🇿",
+  "description": "O'zbekiston vakolatnoma tizimi",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "vercel-build": "npm install"
+    "start": "node server.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "dependencies": {
     "express": "^4.18.2",
