@@ -1,16 +1,26 @@
-﻿const express = require('express');
+# ============ GITHUB'DA SERVER.JS NI YANGILASH ============
+
+# 1. Eski server.js ni o'chirish
+Remove-Item server.js -Force -ErrorAction SilentlyContinue
+
+# 2. Yangi to'g'ri server.js yaratish (Glitch va barcha platformalar uchun)
+@"
+const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// Database fayli
 const DB_FILE = path.join(__dirname, 'users.json');
 
+// Database funksiyalari
 function readDB() {
     try {
         const data = fs.readFileSync(DB_FILE, 'utf8');
@@ -57,8 +67,6 @@ function registerUser(fullname, email, password, phone) {
     if (existing) {
         return { success: false, message: 'Bu email allaqachon ro\'yxatdan o\'tgan!' };
     }
-    
-    // Parolni OCHIQ saqlaymiz
     db.users.push({
         id: Date.now(),
         fullname: fullname,
@@ -78,6 +86,7 @@ function getAllUsers() {
 
 initAdmin();
 
+// ===== ROUTES =====
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -117,8 +126,12 @@ app.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
-app.listen(PORT, () => {
+// Serverni ishga tushirish
+app.listen(PORT, '0.0.0.0', () => {
     console.log('🚀 Server ishga tushdi: http://localhost:' + PORT);
     console.log('🇺🇿 O\'zbekiston vakolatnoma tizimi');
     console.log('👤 Admin: admin / 2113');
 });
+"@ | Out-File -FilePath "server.js" -Encoding UTF8
+
+Write-Host "✅ server.js to'g'irlandi!" -ForegroundColor Green
