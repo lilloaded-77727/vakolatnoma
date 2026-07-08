@@ -1,5 +1,6 @@
 ﻿{
   "version": 2,
+  "name": "vakolatnoma-2024",
   "builds": [
     {
       "src": "server.js",
