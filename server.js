@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
@@ -56,7 +56,7 @@ function initAdmin() {
             password: bcrypt.hashSync('2113', salt)
         };
         writeDB(db);
-        console.log('✅ Admin yaratildi: admin / 2113');
+        console.log('Admin yaratildi: admin / 2113');
     }
 }
 
@@ -91,7 +91,10 @@ function checkAdmin(username, password) {
     return false;
 }
 
+<<<<<<< HEAD
 // Adminni ishga tushirish
+=======
+>>>>>>> b1acffab9736340bc7a1b5f5502d5ab3ba13c164
 initAdmin();
 
 // ===== ROUTES =====
@@ -134,12 +137,18 @@ app.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
+<<<<<<< HEAD
 // ===== SERVERNI ISHGA TUSHIRISH =====
 app.listen(PORT, '0.0.0.0', () => {
     console.log('✅ Server ishga tushdi!');
     console.log('🚀 PORT: ' + PORT);
     console.log('🇺🇿 O\'zbekiston vakolatnoma tizimi');
     console.log('👤 Admin: admin / 2113');
+=======
+app.listen(PORT, '0.0.0.0', () => {
+    console.log('Server ishga tushdi! PORT: ' + PORT);
+    console.log('Admin: admin / 2113');
+>>>>>>> b1acffab9736340bc7a1b5f5502d5ab3ba13c164
 });
 
 // Xatoliklarni ushlash
