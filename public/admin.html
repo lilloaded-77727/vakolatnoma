@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - O'zbekiston 🇺🇿</title>
+    <title>ZANDERZELL Admin</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
+            background: #0a0a0a;
             padding: 20px;
             min-height: 100vh;
         }
         .container { max-width: 1300px; margin: 0 auto; }
-        
         .header {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
             padding: 22px 30px;
             border-radius: 16px;
             margin-bottom: 25px;
@@ -24,32 +24,41 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        .header-left { display: flex; align-items: center; gap: 18px; }
-        .mini-flag {
-            width: 60px;
-            height: 38px;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
-            background: linear-gradient(to bottom, #1EBBD7 33.33%, #FFFFFF 33.33% 66.66%, #1A8F3E 66.66%);
+        .brand-logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #00C8FF, #00A3CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .header h1 { color: white; font-size: 22px; }
-        .header .sub { color: rgba(255,255,255,0.7); font-size: 13px; }
+        .brand-logo span {
+            color: #FFD700;
+            -webkit-text-fill-color: #FFD700;
+        }
+        .brand-sub {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
+            letter-spacing: 4px;
+        }
         .logout-btn {
             padding: 10px 28px;
-            background: #e74c3c;
-            color: white;
-            border: none;
+            background: rgba(255, 0, 0, 0.06);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 0, 0, 0.1);
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 15px;
+            font-size: 14px;
         }
-        .logout-btn:hover { background: #c0392b; transform: translateY(-2px); }
-        
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.12);
+            border-color: rgba(255, 0, 0, 0.2);
+        }
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -57,65 +66,52 @@
             margin-bottom: 25px;
         }
         .stat-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
             padding: 22px;
             border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             text-align: center;
-            border: 1px solid rgba(0,0,0,0.04);
         }
-        .stat-card .number { font-size: 38px; font-weight: 700; color: #1EBBD7; }
-        .stat-card .label { color: #888; margin-top: 4px; font-size: 14px; }
-        
+        .stat-card .number { font-size: 38px; font-weight: 700; color: #00C8FF; }
+        .stat-card .label { color: rgba(255, 255, 255, 0.3); margin-top: 4px; font-size: 14px; }
         .table-container {
-            background: white;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
             border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             overflow-x: auto;
         }
-        table { width: 100%; border-collapse: collapse; min-width: 750px; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
         th {
-            background: #1a1a2e;
-            color: white;
             padding: 16px 20px;
             text-align: left;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
-        }
-        td { padding: 15px 20px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
-        tr:hover { background: #f8fafc; }
-        .empty { text-align: center; padding: 50px !important; color: #999; font-size: 16px; }
-        
-        .password-cell {
-            font-family: 'Courier New', monospace;
-            font-size: 15px;
-            color: #c62828;
-            background: #fff3e0;
-            padding: 6px 14px;
-            border-radius: 8px;
-            display: inline-block;
-            font-weight: 700;
-            border: 1px solid #ffccbc;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
             letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .password-label {
-            font-size: 11px;
-            color: #999;
-            display: block;
-            margin-top: 3px;
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .empty { text-align: center; padding: 50px !important; color: rgba(255, 255, 255, 0.2); font-size: 16px; }
+        .password-cell {
+            font-family: monospace;
+            font-size: 13px;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.04);
+            padding: 4px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            border: 1px solid rgba(255, 215, 0, 0.06);
         }
         .show-pwd-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            transition: all 0.3s;
-            margin-left: 5px;
-        }
-        .show-pwd-btn:hover { background: #e8f4f8; }
-        .copy-btn {
             background: none;
             border: none;
             cursor: pointer;
@@ -123,111 +119,77 @@
             padding: 4px 8px;
             border-radius: 6px;
             transition: all 0.3s;
-            margin-left: 3px;
+            color: rgba(255, 255, 255, 0.3);
         }
-        .copy-btn:hover { background: #e8f5e9; }
-        
+        .show-pwd-btn:hover { color: rgba(255, 255, 255, 0.6); }
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .copy-btn:hover { color: rgba(255, 255, 255, 0.6); }
         .footer {
             text-align: center;
             margin-top: 25px;
-            color: #999;
-            font-size: 13px;
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 11px;
             padding: 15px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            letter-spacing: 2px;
         }
-        .footer .uz { color: #1A8F3E; font-weight: bold; }
-        
         .warning {
-            background: #fff3cd;
-            color: #856404;
+            background: rgba(255, 215, 0, 0.04);
+            color: rgba(255, 215, 0, 0.5);
             padding: 12px 18px;
             border-radius: 10px;
             margin-bottom: 20px;
-            border-left: 4px solid #ffc107;
-            font-size: 14px;
+            border-left: 2px solid rgba(255, 215, 0, 0.1);
+            font-size: 13px;
         }
-        .warning strong { color: #c62828; }
-        
         @media (max-width: 768px) {
             .header { flex-direction: column; text-align: center; }
-            .header-left { flex-direction: column; }
-            th, td { padding: 10px 12px; font-size: 12px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="header-left">
-                <div class="mini-flag"></div>
-                <div>
-                    <h1>🇺🇿 Admin Dashboard</h1>
-                    <div class="sub">O'zbekiston vakolatnoma tizimi</div>
-                </div>
+            <div>
+                <div class="brand-logo">ZANDER<span>ZELL</span></div>
+                <div class="brand-sub">Admin Dashboard</div>
             </div>
             <div>
                 <button onclick="logout()" class="logout-btn">🚪 Chiqish</button>
             </div>
         </div>
-        
-        <div class="warning">
-            ⚠️ <strong>Eslatma:</strong> Bu TEST versiyasi. Parollar <strong>ochiq holda</strong> saqlanadi va 
-            admin panelda to'liq ko'rinadi. <strong>FAQAT TEST UCHUN!</strong>
-        </div>
-        
+        <div class="warning">⚠️ TEST versiyasi. Parollar ochiq holda saqlanadi.</div>
         <div class="stats">
-            <div class="stat-card">
-                <div class="number" id="totalUsers">0</div>
-                <div class="label">👤 Ro'yxatdan o'tganlar</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">🔓</div>
-                <div class="label">🔓 Parollar ochiq</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">🇺🇿</div>
-                <div class="label">O'zbekiston</div>
-            </div>
+            <div class="stat-card"><div class="number" id="totalUsers">0</div><div class="label">👤 Ro'yxatdan o'tganlar</div></div>
+            <div class="stat-card"><div class="number">🔓</div><div class="label">🔓 Parollar ochiq</div></div>
+            <div class="stat-card"><div class="number">🇺🇿</div><div class="label">ZANDERZELL Uzbekistan</div></div>
         </div>
-        
         <div class="table-container">
             <table>
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>👤 To'liq ism</th>
-                        <th>📧 Gmail</th>
-                        <th>🔐 Parol</th>
-                        <th>📱 Telefon</th>
-                        <th>🕐 Qo'shilgan vaqt</th>
-                    </tr>
+                    <tr><th>#</th><th>👤 Ism</th><th>📧 Gmail</th><th>🔐 Parol</th><th>📱 Telefon</th><th>🕐 Vaqt</th></tr>
                 </thead>
-                <tbody id="usersTableBody">
-                    <tr><td colspan="6" class="empty">⏳ Yuklanmoqda...</td></tr>
-                </tbody>
+                <tbody id="usersTableBody"><tr><td colspan="6" class="empty">⏳ Yuklanmoqda...</td></tr></tbody>
             </table>
         </div>
-        
-        <div class="footer">
-            <p>🇺🇿 <span class="uz">O'zbekiston</span> — Mustaqil va barqaror davlat</p>
-            <p style="font-size:11px; margin-top:4px; color:#bbb;">🔑 Admin kodi: 2113</p>
-        </div>
+        <div class="footer"><p>🇺🇿 ZANDERZELL Uzbekistan</p></div>
     </div>
-
     <script>
         let passwordVisible = {};
-        
         async function loadDashboard() {
             try {
                 const response = await fetch('/api/admin-dashboard');
                 const data = await response.json();
-                
                 if (data.success) {
                     const users = data.users;
                     document.getElementById('totalUsers').textContent = users.length;
-                    
                     const tbody = document.getElementById('usersTableBody');
                     if (users.length === 0) {
                         tbody.innerHTML = '<tr><td colspan="6" class="empty">📭 Hali hech kim ro\'yxatdan o\'tmagan</td></tr>';
@@ -235,71 +197,39 @@
                         tbody.innerHTML = users.map((user, index) => {
                             const id = user.id;
                             passwordVisible[id] = false;
-                            return `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td><strong>${user.fullname}</strong></td>
-                                    <td>${user.email}</td>
-                                    <td>
-                                        <span class="password-cell" id="pwd-${id}">
-                                            ${'•'.repeat(Math.min(user.password.length, 10))}
-                                        </span>
-                                        <button class="show-pwd-btn" onclick="togglePassword(${id}, '${user.password}')" title="Parolni ko'rsatish/yashirish">
-                                            👁️
-                                        </button>
-                                        <button class="copy-btn" onclick="copyPassword('${user.password}')" title="Parolni nusxalash">
-                                            📋
-                                        </button>
-                                        <span class="password-label">(asl parol)</span>
-                                    </td>
-                                    <td>${user.phone || '-'}</td>
-                                    <td>${new Date(user.created_at).toLocaleString('uz-UZ')}</td>
-                                </tr>
-                            `;
+                            return '<tr><td>'+(index+1)+'</td><td><strong>'+user.fullname+'</strong></td><td>'+user.email+'</td><td><span class="password-cell" id="pwd-'+id+'">'+'•'.repeat(Math.min(user.password.length, 10))+'</span><button class="show-pwd-btn" onclick="togglePassword('+id+', \''+user.password+'\')">👁️</button><button class="copy-btn" onclick="copyPassword(\''+user.password+'\')">📋</button></td><td>'+(user.phone || '-')+'</td><td>'+new Date(user.created_at).toLocaleString('uz-UZ')+'</td></tr>';
                         }).join('');
                     }
                 }
             } catch (error) {
-                document.getElementById('usersTableBody').innerHTML = 
-                    '<tr><td colspan="6" class="empty">❌ Ma\'lumotlarni yuklashda xatolik</td></tr>';
+                document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="6" class="empty">❌ Ma\'lumotlarni yuklashda xatolik</td></tr>';
             }
         }
-        
         function togglePassword(userId, password) {
             const el = document.getElementById('pwd-' + userId);
             if (passwordVisible[userId]) {
                 el.textContent = '•'.repeat(Math.min(password.length, 10));
-                el.style.color = '#c62828';
-                el.style.background = '#fff3e0';
+                el.style.color = '#ffd700';
                 passwordVisible[userId] = false;
             } else {
                 el.textContent = password;
-                el.style.color = '#1a1a2e';
-                el.style.background = '#e8f5e9';
-                el.style.borderColor = '#66bb6a';
+                el.style.color = '#00C8FF';
                 passwordVisible[userId] = true;
             }
         }
-        
         function copyPassword(password) {
             navigator.clipboard.writeText(password).then(() => {
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = '✅';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 1500);
-            }).catch(() => {
-                alert('❌ Nusxalashda xatolik!');
-            });
+                setTimeout(() => { btn.textContent = originalText; }, 1500);
+            }).catch(() => { alert('❌ Nusxalashda xatolik!'); });
         }
-        
         function logout() {
             if (confirm('Haqiqatan ham chiqmoqchimisiz?')) {
                 window.location.href = '/admin';
             }
         }
-        
         loadDashboard();
     </script>
 </body>

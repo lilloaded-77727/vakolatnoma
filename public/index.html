@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ro'yxatdan o'tish - O'zbekiston 🇺🇿</title>
+    <title>ZANDERZELL Uzbekistan 🇺🇿</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
@@ -15,408 +20,395 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
+            background: #0a0a0a;
         }
-        
-        /* O'zbekiston bayrog'i fon */
-        .flag-background {
+
+        .brand-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 0;
-            pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(0, 200, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
         }
-        .flag-stripe {
+
+        .brand-bg::before {
+            content: 'ZANDERZELL';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 180px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            letter-spacing: 20px;
+            white-space: nowrap;
+            font-family: 'Arial Black', sans-serif;
+            pointer-events: none;
+            animation: textPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.02); }
+        }
+
+        .flag-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.06;
+        }
+        .flag-overlay .stripe {
             position: absolute;
             width: 100%;
             height: 33.33%;
             left: 0;
         }
-        .stripe-blue { top: 0; background: #1EBBD7; }
-        .stripe-white { top: 33.33%; background: #FFFFFF; }
-        .stripe-green { top: 66.66%; background: #1A8F3E; }
-        
-        .flag-stars {
+        .flag-overlay .blue { top: 0; background: #1EBBD7; }
+        .flag-overlay .white { top: 33.33%; background: #FFFFFF; }
+        .flag-overlay .green { top: 66.66%; background: #1A8F3E; }
+
+        .glow {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .glow-1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+            background: rgba(0, 200, 255, 0.1);
+        }
+        .glow-2 {
             width: 300px;
-            height: 200px;
-            z-index: 2;
+            height: 300px;
+            bottom: -50px;
+            left: -50px;
+            background: rgba(255, 215, 0, 0.08);
         }
-        .moon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #FFFFFF;
-            box-shadow: -10px 0 0 0 #1EBBD7 inset;
-        }
-        .moon::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #1EBBD7;
-        }
-        .star {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #FFFFFF;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
-        .star1 { top: 15%; left: 45%; }
-        .star2 { top: 12%; left: 58%; }
-        .star3 { top: 20%; left: 70%; }
-        .star4 { top: 32%; left: 78%; }
-        .star5 { top: 45%; left: 80%; }
-        .star6 { top: 58%; left: 76%; }
-        .star7 { top: 68%; left: 68%; }
-        .star8 { top: 76%; left: 56%; }
-        .star9 { top: 80%; left: 44%; }
-        .star10 { top: 76%; left: 32%; }
-        .star11 { top: 68%; left: 22%; }
-        .star12 { top: 56%; left: 16%; }
-        
-        .flag-wave {
-            position: absolute;
-            width: 200%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: rgba(255,255,255,0.05);
-            animation: waveMove 8s ease-in-out infinite;
-            z-index: 1;
-        }
-        @keyframes waveMove {
-            0%, 100% { transform: translateX(0) scaleX(1); }
-            50% { transform: translateX(-25%) scaleX(1.02); }
-        }
-        
+
         .container {
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(20px);
-            padding: 40px 45px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
+            padding: 45px 50px;
             border-radius: 24px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
             position: relative;
             z-index: 10;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
-        
-        .mini-flag {
-            width: 100px;
-            height: 60px;
-            margin: 0 auto 15px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #ddd;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            position: relative;
-            background: linear-gradient(to bottom, #1EBBD7 33.33%, #FFFFFF 33.33% 66.66%, #1A8F3E 66.66%);
-        }
-        .mini-flag .m {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #FFFFFF;
-            box-shadow: -5px 0 0 0 #1EBBD7 inset;
-            z-index: 3;
-        }
-        .mini-flag .m::after {
+
+        .container::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #1EBBD7;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.1), transparent 50%, rgba(255, 215, 0, 0.05));
+            z-index: -1;
+            pointer-events: none;
         }
-        .mini-flag .s {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #FFFFFF;
-            border-radius: 50%;
-            z-index: 3;
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
         }
-        .mini-flag .s1 { top: 30%; left: 40%; }
-        .mini-flag .s2 { top: 25%; left: 55%; }
-        .mini-flag .s3 { top: 35%; left: 68%; }
-        .mini-flag .s4 { top: 48%; left: 73%; }
-        .mini-flag .s5 { top: 60%; left: 70%; }
-        .mini-flag .s6 { top: 70%; left: 60%; }
-        .mini-flag .s7 { top: 75%; left: 48%; }
-        .mini-flag .s8 { top: 70%; left: 36%; }
-        .mini-flag .s9 { top: 60%; left: 28%; }
-        .mini-flag .s10 { top: 48%; left: 24%; }
-        .mini-flag .s11 { top: 38%; left: 28%; }
-        .mini-flag .s12 { top: 30%; left: 30%; }
-        
-        .header { text-align: center; margin-bottom: 28px; }
-        .header h1 { font-size: 28px; color: #1a1a2e; font-weight: 700; }
-        .header h1 span { color: #1EBBD7; }
-        .header p { color: #666; font-size: 14px; margin-top: 4px; }
-        .header p .uz { color: #1A8F3E; font-weight: 700; }
-        
-        .form-group { margin-bottom: 18px; }
-        label { display: block; color: #333; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+
+        .brand-logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #00C8FF, #00A3CC, #00C8FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(0, 200, 255, 0.2);
+            margin-bottom: 5px;
+        }
+
+        .brand-logo span {
+            color: #FFD700;
+            -webkit-text-fill-color: #FFD700;
+            background: none;
+        }
+
+        .brand-sub {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .brand-divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.4), transparent);
+            margin: 12px auto 0;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            margin-bottom: 6px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
         input {
             width: 100%;
-            padding: 13px 16px;
-            border: 2px solid #e8ecf1;
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             font-size: 15px;
             transition: all 0.3s;
-            background: #f8fafc;
-        }
-        input:focus {
-            border-color: #1EBBD7;
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(30,187,215,0.15);
-            background: #fff;
         }
-        input::placeholder { color: #aab; }
-        
-        /* ===== PAROL ESLATMA ===== */
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        input:focus {
+            border-color: rgba(0, 200, 255, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.05);
+        }
+
         .password-wrapper {
             position: relative;
         }
         .password-wrapper input {
             padding-right: 50px;
         }
-        .password-hint {
-            font-size: 12px;
-            color: #999;
-            margin-top: 4px;
+        .toggle-pwd {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.3);
+            transition: 0.3s;
         }
-        
-        /* Parol eslatma - to'rtburchak ichida */
+        .toggle-pwd:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         .password-notice {
             display: none;
-            background: #fff3cd;
-            color: #856404;
-            padding: 12px 16px;
-            border-radius: 10px;
+            background: rgba(255, 215, 0, 0.06);
+            border-left: 2px solid #FFD700;
+            padding: 10px 14px;
+            border-radius: 8px;
             margin-top: 8px;
-            font-size: 14px;
-            border-left: 4px solid #ffc107;
-            animation: slideDown 0.3s ease;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
             align-items: center;
             gap: 10px;
         }
         .password-notice.show {
             display: flex;
         }
-        .password-notice .icon {
-            font-size: 20px;
-        }
-        .password-notice .text {
-            flex: 1;
-        }
         .password-notice .close-btn {
             background: none;
             border: none;
-            font-size: 18px;
+            color: rgba(255, 255, 255, 0.3);
             cursor: pointer;
-            color: #856404;
-            padding: 0 5px;
+            font-size: 16px;
         }
-        .password-notice .close-btn:hover {
-            color: #333;
+
+        .password-hint {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 4px;
         }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Parol ko'rinishi tugmasi */
-        .toggle-pwd {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-        .toggle-pwd:hover {
-            background: #e8f4f8;
-        }
-        
+
         .btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #1EBBD7, #0d6b8f);
-            color: white;
-            border: none;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.15), rgba(0, 200, 255, 0.05));
+            color: #00C8FF;
+            border: 1px solid rgba(0, 200, 255, 0.15);
             border-radius: 12px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 6px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
+
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(30,187,215,0.35);
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.25), rgba(0, 200, 255, 0.1));
+            border-color: rgba(0, 200, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 200, 255, 0.1);
+            transform: translateY(-1px);
         }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .error, .success-msg {
             padding: 12px 16px;
             border-radius: 10px;
             margin-bottom: 15px;
-            font-size: 14px;
+            font-size: 13px;
             display: none;
         }
-        .error { background: #fee; color: #c00; border-left: 4px solid #c00; }
-        .success-msg { background: #e8f5e9; color: #2e7d32; border-left: 4px solid #2e7d32; }
-        
-        .admin-link { text-align: center; margin-top: 18px; font-size: 13px; }
-        .admin-link a { color: #1EBBD7; text-decoration: none; font-weight: 600; }
-        .admin-link a:hover { text-decoration: underline; }
-        
+        .error {
+            background: rgba(255, 0, 0, 0.06);
+            color: #ff6b6b;
+            border-left: 2px solid #ff6b6b;
+        }
+        .success-msg {
+            background: rgba(0, 255, 100, 0.06);
+            color: #51cf66;
+            border-left: 2px solid #51cf66;
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        .admin-link a {
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        .admin-link a:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         .footer {
             text-align: center;
-            margin-top: 18px;
-            font-size: 12px;
-            color: #999;
-            border-top: 1px solid #eee;
-            padding-top: 14px;
+            margin-top: 20px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 16px;
+            letter-spacing: 2px;
         }
-        .footer .uz { color: #1A8F3E; font-weight: bold; }
-        
+        .footer .uz {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
         @media (max-width: 480px) {
-            .container { padding: 25px 20px; }
-            .header h1 { font-size: 22px; }
+            .container {
+                padding: 30px 24px;
+            }
+            .brand-logo {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="flag-background">
-        <div class="flag-stripe stripe-blue"></div>
-        <div class="flag-stripe stripe-white"></div>
-        <div class="flag-stripe stripe-green"></div>
-        <div class="flag-stars">
-            <div class="moon"></div>
-            <div class="star star1"></div><div class="star star2"></div>
-            <div class="star star3"></div><div class="star star4"></div>
-            <div class="star star5"></div><div class="star star6"></div>
-            <div class="star star7"></div><div class="star star8"></div>
-            <div class="star star9"></div><div class="star star10"></div>
-            <div class="star star11"></div><div class="star star12"></div>
-            <div class="flag-wave"></div>
-        </div>
+
+    <div class="brand-bg"></div>
+
+    <div class="flag-overlay">
+        <div class="stripe blue"></div>
+        <div class="stripe white"></div>
+        <div class="stripe green"></div>
     </div>
-    
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
     <div class="container">
-        <div class="mini-flag">
-            <div class="m"></div>
-            <div class="s s1"></div><div class="s s2"></div><div class="s s3"></div>
-            <div class="s s4"></div><div class="s s5"></div><div class="s s6"></div>
-            <div class="s s7"></div><div class="s s8"></div><div class="s s9"></div>
-            <div class="s s10"></div><div class="s s11"></div><div class="s s12"></div>
-        </div>
-        
         <div class="header">
-            <h1>🇺🇿 Ro'yxatdan <span>o'tish</span></h1>
-            <p>O'zbekiston <span class="uz">🇺🇿</span> vakolatnoma tizimi</p>
+            <div class="brand-logo">ZANDER<span>ZELL</span></div>
+            <div class="brand-sub">Uzbekistan</div>
+            <div class="brand-divider"></div>
         </div>
-        
+
         <div id="errorMessage" class="error"></div>
         <div id="successMessage" class="success-msg"></div>
-        
+
         <form id="registerForm">
             <div class="form-group">
                 <label>👤 To'liq ism</label>
                 <input type="text" id="fullname" placeholder="Ism Familiya" required>
             </div>
-            
+
             <div class="form-group">
                 <label>📧 Gmail pochta</label>
                 <input type="email" id="email" placeholder="example@gmail.com" required>
             </div>
-            
+
             <div class="form-group">
                 <label>🔐 Gmail paroli</label>
                 <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Gmail parolingizni kiriting" required minlength="6">
-                    <button type="button" class="toggle-pwd" id="togglePassword" title="Parolni ko'rsatish/yashirish">👁️</button>
+                    <input type="password" id="password" placeholder="Parolingizni kiriting" required minlength="6">
+                    <button type="button" class="toggle-pwd" id="togglePassword">👁️</button>
                 </div>
-                
-                <!-- ===== PAROL ESLATMA ===== -->
                 <div class="password-notice" id="passwordNotice">
-                    <span class="icon">⚠️</span>
-                    <span class="text"><strong>Eslatma:</strong> Faqat Gmail pochta paroli yozilsin!</span>
+                    <span>⚠️</span>
+                    <span>Faqat Gmail pochta paroli yozilsin!</span>
                     <button type="button" class="close-btn" id="closeNotice">✕</button>
                 </div>
-                
                 <div class="password-hint">Parol kamida 6 belgidan iborat bo'lishi kerak</div>
             </div>
-            
+
             <div class="form-group">
                 <label>📱 Telefon (ixtiyoriy)</label>
                 <input type="tel" id="phone" placeholder="+998 90 123 45 67">
             </div>
-            
+
             <button type="submit" class="btn">✅ Ro'yxatdan o'tish</button>
         </form>
-        
+
         <div class="admin-link">
-            👤 <a href="/admin">Admin panelga kirish</a>
+            <a href="/admin">👤 Admin panel</a>
         </div>
-        
+
         <div class="footer">
-            <p>🇺🇿 <span class="uz">O'zbekiston</span> — Vatanim manim</p>
+            <p>🇺🇿 <span class="uz">ZANDERZELL Uzbekistan</span></p>
         </div>
     </div>
 
     <script>
-        // ===== PAROL ESLATMA =====
         const passwordInput = document.getElementById('password');
         const passwordNotice = document.getElementById('passwordNotice');
         const closeNotice = document.getElementById('closeNotice');
         const togglePassword = document.getElementById('togglePassword');
-        
-        // Parol maydoniga fokuslanganda eslatma chiqadi
+
         passwordInput.addEventListener('focus', function() {
             passwordNotice.classList.add('show');
         });
-        
-        // Parol maydonidan chiqilganda eslatma yashirinadi
-        passwordInput.addEventListener('blur', function() {
-            // Agar parol yozilgan bo'lsa, eslatmani yashirish
-            if (this.value.length > 0) {
-                passwordNotice.classList.remove('show');
-            }
-        });
-        
-        // Parol yozilganda eslatma yashirinadi
+
         passwordInput.addEventListener('input', function() {
             if (this.value.length > 0) {
                 passwordNotice.classList.remove('show');
@@ -424,63 +416,60 @@
                 passwordNotice.classList.add('show');
             }
         });
-        
-        // Yopish tugmasi
+
         closeNotice.addEventListener('click', function() {
             passwordNotice.classList.remove('show');
         });
-        
-        // Parolni ko'rsatish/yashirish
+
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
             this.textContent = type === 'password' ? '👁️' : '🙈';
         });
-        
-        // ===== FORMA YUBORISH =====
+
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const fullname = document.getElementById('fullname').value.trim();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const phone = document.getElementById('phone').value.trim();
-            
+
             const errorDiv = document.getElementById('errorMessage');
             const successDiv = document.getElementById('successMessage');
             const btn = this.querySelector('.btn');
-            
+
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
-            
+
             if (fullname.length < 3) {
                 errorDiv.textContent = '❌ Ism familiya kamida 3 belgidan iborat bo\'lishi kerak!';
                 errorDiv.style.display = 'block';
                 return;
             }
-            
+
             if (password.length < 6) {
                 errorDiv.textContent = '❌ Parol kamida 6 belgidan iborat bo\'lishi kerak!';
                 errorDiv.style.display = 'block';
                 return;
             }
-            
+
             btn.textContent = '⏳ Yuklanmoqda...';
             btn.disabled = true;
-            
+
             try {
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ fullname, email, password, phone })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     successDiv.textContent = '✅ ' + data.message;
                     successDiv.style.display = 'block';
-                    
+
                     setTimeout(() => {
                         window.location.href = '/success?name=' + encodeURIComponent(fullname);
                     }, 1200);
@@ -498,5 +487,6 @@
             }
         });
     </script>
+
 </body>
 </html>

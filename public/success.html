@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muvaffaqiyatli - O'zbekiston 🇺🇿</title>
+    <title>ZANDERZELL Uzbekistan</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
+            background: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,98 +17,119 @@
             position: relative;
             overflow: hidden;
         }
-        .flag-bg {
+        .brand-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0, 200, 255, 0.03) 0%, transparent 70%);
             z-index: 0;
+        }
+        .brand-bg::before {
+            content: 'ZANDERZELL';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 150px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            letter-spacing: 20px;
+            font-family: 'Arial Black', sans-serif;
             pointer-events: none;
         }
-        .flag-bg .s1 { position: absolute; top: 0; left: 0; width: 100%; height: 33.33%; background: #1EBBD7; }
-        .flag-bg .s2 { position: absolute; top: 33.33%; left: 0; width: 100%; height: 33.33%; background: #FFFFFF; }
-        .flag-bg .s3 { position: absolute; top: 66.66%; left: 0; width: 100%; height: 33.33%; background: #1A8F3E; }
-        
         .success-box {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px);
             padding: 50px;
             border-radius: 24px;
             text-align: center;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
             max-width: 460px;
             width: 100%;
             position: relative;
-            z-index: 10;
-            border: 2px solid rgba(255,255,255,0.3);
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
         }
-        .mini-flag {
-            width: 90px;
-            height: 54px;
-            margin: 0 auto 15px;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 2px solid #ddd;
-            background: linear-gradient(to bottom, #1EBBD7 33.33%, #FFFFFF 33.33% 66.66%, #1A8F3E 66.66%);
+        .brand-logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #00C8FF, #00A3CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
         }
-        .icon { font-size: 72px; margin-bottom: 10px; }
-        h2 { color: #2ecc71; font-size: 30px; }
-        .sub { color: #666; margin: 8px 0 20px; font-size: 16px; }
+        .brand-logo span {
+            color: #FFD700;
+            -webkit-text-fill-color: #FFD700;
+        }
+        .brand-sub {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .icon { font-size: 72px; margin-bottom: 15px; }
+        h2 { color: #51cf66; font-size: 28px; margin-bottom: 10px; }
+        .sub { color: rgba(255, 255, 255, 0.4); margin-bottom: 20px; font-size: 16px; }
         .name-display {
-            background: linear-gradient(135deg, #f0f8ff, #e8f4f8);
+            background: rgba(0, 200, 255, 0.04);
             padding: 16px;
             border-radius: 12px;
-            color: #1EBBD7;
+            color: #00C8FF;
             font-weight: 600;
             font-size: 20px;
             margin: 15px 0;
-            border: 2px solid rgba(30,187,215,0.15);
+            border: 1px solid rgba(0, 200, 255, 0.06);
         }
         .btn {
             display: inline-block;
             padding: 14px 40px;
-            background: linear-gradient(135deg, #1EBBD7, #0d6b8f);
-            color: white;
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.15), rgba(0, 200, 255, 0.05));
+            color: #00C8FF;
             text-decoration: none;
             border-radius: 12px;
             font-weight: 700;
             font-size: 16px;
             transition: all 0.3s;
             margin-top: 8px;
+            border: 1px solid rgba(0, 200, 255, 0.15);
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30,187,215,0.35); }
+        .btn:hover {
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.25), rgba(0, 200, 255, 0.1));
+            border-color: rgba(0, 200, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 200, 255, 0.05);
+        }
         .footer {
             margin-top: 20px;
-            font-size: 12px;
-            color: #999;
-            border-top: 1px solid #eee;
-            padding-top: 14px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 16px;
+            letter-spacing: 2px;
         }
-        .footer .uz { color: #1A8F3E; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="flag-bg">
-        <div class="s1"></div>
-        <div class="s2"></div>
-        <div class="s3"></div>
-    </div>
-    
+    <div class="brand-bg"></div>
     <div class="success-box">
-        <div class="mini-flag"></div>
+        <div class="brand-logo">ZANDER<span>ZELL</span></div>
+        <div class="brand-sub">Uzbekistan</div>
         <div class="icon">✅</div>
         <h2>Muvaffaqiyatli!</h2>
         <p class="sub">Siz muvaffaqiyatli ro'yxatdan o'tdingiz</p>
         <div class="name-display" id="nameDisplay">👤 Ismingiz</div>
-        <p style="color:#666; font-size:14px; margin-bottom:12px;">
+        <p style="color:rgba(255,255,255,0.3); font-size:14px; margin-bottom:12px;">
             Sizning ma'lumotlaringiz saqlandi.<br>
             Admin panel orqali ko'rishingiz mumkin.
         </p>
         <a href="/" class="btn">🏠 Bosh sahifaga</a>
-        <div class="footer"><p>🇺🇿 <span class="uz">O'zbekiston</span> — Vatanim manim</p></div>
+        <div class="footer"><p>🇺🇿 ZANDERZELL Uzbekistan</p></div>
     </div>
-
     <script>
         const params = new URLSearchParams(window.location.search);
         const name = params.get('name');
