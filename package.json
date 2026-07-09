@@ -1,7 +1,7 @@
 ﻿{
   "name": "vakolatnoma",
   "version": "1.0.0",
-  "description": "O'zbekiston vakolatnoma tizimi",
+  "description": "Ozbekiston vakolatnoma tizimi",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
