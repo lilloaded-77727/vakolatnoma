@@ -1,12 +1,7 @@
-# ============ PACKAGE.JSON NI TO'G'IRLASH ============
-
-Remove-Item package.json -Force -ErrorAction SilentlyContinue
-
-@"
 {
   "name": "vakolatnoma",
   "version": "1.0.0",
-  "description": "O'zbekiston vakolatnoma tizimi",
+  "description": "Ozbekiston vakolatnoma tizimi",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -20,6 +15,3 @@ Remove-Item package.json -Force -ErrorAction SilentlyContinue
     "cors": "^2.8.5"
   }
 }
-"@ | Out-File -FilePath "package.json" -Encoding UTF8
-
-Write-Host "✅ package.json to'g'irlandi!" -ForegroundColor Green
