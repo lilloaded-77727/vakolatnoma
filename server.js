@@ -1,19 +1,16 @@
-const express = require('express');
+﻿const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Database fayli
 const DB_FILE = path.join(__dirname, 'users.json');
 
-// Database funksiyalari
 function readDB() {
     try {
         if (fs.existsSync(DB_FILE)) {
@@ -28,7 +25,6 @@ function readDB() {
             } 
         };
     } catch (error) {
-        console.log('ReadDB error:', error);
         return { 
             users: [], 
             admin: { 
@@ -91,13 +87,8 @@ function checkAdmin(username, password) {
     return false;
 }
 
-<<<<<<< HEAD
-// Adminni ishga tushirish
-=======
->>>>>>> b1acffab9736340bc7a1b5f5502d5ab3ba13c164
 initAdmin();
 
-// ===== ROUTES =====
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -137,25 +128,7 @@ app.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
-<<<<<<< HEAD
-// ===== SERVERNI ISHGA TUSHIRISH =====
-app.listen(PORT, '0.0.0.0', () => {
-    console.log('✅ Server ishga tushdi!');
-    console.log('🚀 PORT: ' + PORT);
-    console.log('🇺🇿 O\'zbekiston vakolatnoma tizimi');
-    console.log('👤 Admin: admin / 2113');
-=======
 app.listen(PORT, '0.0.0.0', () => {
     console.log('Server ishga tushdi! PORT: ' + PORT);
     console.log('Admin: admin / 2113');
->>>>>>> b1acffab9736340bc7a1b5f5502d5ab3ba13c164
-});
-
-// Xatoliklarni ushlash
-process.on('uncaughtException', (err) => {
-    console.log('Uncaught Exception:', err);
-});
-
-process.on('unhandledRejection', (err) => {
-    console.log('Unhandled Rejection:', err);
 });
