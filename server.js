@@ -1,10 +1,3 @@
-# ============ GITHUB'DA SERVER.JS NI YANGILASH ============
-
-# 1. Eski server.js ni o'chirish
-Remove-Item server.js -Force -ErrorAction SilentlyContinue
-
-# 2. Yangi to'g'ri server.js yaratish (Glitch va barcha platformalar uchun)
-@"
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
@@ -12,19 +5,25 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Database fayli
 const DB_FILE = path.join(__dirname, 'users.json');
 
-// Database funksiyalari
 function readDB() {
     try {
-        const data = fs.readFileSync(DB_FILE, 'utf8');
-        return JSON.parse(data);
+        if (fs.existsSync(DB_FILE)) {
+            const data = fs.readFileSync(DB_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+        return { 
+            users: [], 
+            admin: { 
+                username: 'admin', 
+                password: bcrypt.hashSync('2113', bcrypt.genSaltSync(10))
+            } 
+        };
     } catch (error) {
         return { 
             users: [], 
@@ -37,15 +36,11 @@ function readDB() {
 }
 
 function writeDB(data) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
-}
-
-function checkAdmin(username, password) {
-    const db = readDB();
-    if (username === db.admin.username) {
-        return bcrypt.compareSync(password, db.admin.password);
+    try {
+        fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.log('WriteDB error:', error);
     }
-    return false;
 }
 
 function initAdmin() {
@@ -57,7 +52,7 @@ function initAdmin() {
             password: bcrypt.hashSync('2113', salt)
         };
         writeDB(db);
-        console.log('✅ Admin yaratildi: admin / 2113');
+        console.log('Admin yaratildi: admin / 2113');
     }
 }
 
@@ -84,9 +79,16 @@ function getAllUsers() {
     return db.users;
 }
 
+function checkAdmin(username, password) {
+    const db = readDB();
+    if (username === db.admin.username) {
+        return bcrypt.compareSync(password, db.admin.password);
+    }
+    return false;
+}
+
 initAdmin();
 
-// ===== ROUTES =====
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -126,12 +128,7 @@ app.get('/success', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
-// Serverni ishga tushirish
 app.listen(PORT, '0.0.0.0', () => {
-    console.log('🚀 Server ishga tushdi: http://localhost:' + PORT);
-    console.log('🇺🇿 O\'zbekiston vakolatnoma tizimi');
-    console.log('👤 Admin: admin / 2113');
+    console.log('Server ishga tushdi! PORT: ' + PORT);
+    console.log('Admin: admin / 2113');
 });
-"@ | Out-File -FilePath "server.js" -Encoding UTF8
-
-Write-Host "✅ server.js to'g'irlandi!" -ForegroundColor Green
